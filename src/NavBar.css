@@ -1,0 +1,39 @@
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #FCF6F5;
+    padding: 10px;
+    color: black;
+    text-align: center;
+  }
+  
+  .navbar-item {
+    cursor: pointer;
+    background-color: #FCF6F5;
+    margin-right: 10px; /* Adjust the right margin as needed */
+    font-family: 'Calistoga', sans-serif;
+    margin-left: 2%;
+    text-decoration: none;
+    color: rgb(89, 114, 106);
+
+  }
+  .yes
+  {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+  .profile-icon img {
+    border-radius: 50%; /* Make the image round */
+    width: 40px; /* Adjust the size as needed */
+    height: 40px; /* Adjust the size as needed */
+    margin-right: 20px;
+    cursor: pointer;
+  }
+
+
+  .navbar-item:hover {
+    color:  #FCF6F5; /* Use the default text color on hover */
+  }

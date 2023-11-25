@@ -1,0 +1,97 @@
+
+
+body,
+h1,
+p {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background-color: #E2D1F9;
+}
+
+
+.blog-list-header {
+  text-align: center;
+  padding: 20px 0;
+  background-color: #555;
+  color: white;
+}
+
+.blog-list-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.blog-post {
+  background-color: #fff;
+  margin-bottom: 20px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-top: 5%;
+
+}
+
+.pagination {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  background-color: #555;
+  color: white;
+  padding: 8px 16px;
+  margin: 0 5px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  background-color: #888;
+  cursor: not-allowed;
+}
+.comment-button,
+.star-button,
+.follow-button {
+  background-color: #4caf50;
+  color: white;
+  padding: 8px 16px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.comment-button {
+  background-color: #afd0eb;
+}
+.star-button {
+    background-color: #fffdc7;
+  }
+  
+.follow-button {
+  background-color: #e7a7a2;
+}
+
+.update-button {
+  background-color: #f4e4b4;
+}
+
+.comment-button:hover,
+.star-button:hover,
+.follow-button:hover,
+.update-button:hover,
+.navbar-item:hover {
+  opacity: 0.8;
+  background-color: #e7a7a2;
+}
+.blog-post-image {
+  max-width: 100%;  
+  height: 100px;    
+  margin: 0 auto;  
+  float: right; 
+}

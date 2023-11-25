@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import BlogList from './BlogList';
+import CreateBlogPost from './CreateBlogPost';
+import RateBlog from './RateBlog'; 
+import CommentScreen from './CommentScreen';
+import UpdateBlogPost from './UpdateBlogPost'; 
+import AuthScreen from './AuthScreen';
+import Profile from './User';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+        <Routes>
+        <Route path="/auth" element={<AuthScreen />} />
+          <Route path="/" element={<BlogList />} />
+          <Route path="/create-blog" element={<CreateBlogPost />} />
+          <Route path="/rate-blog/:blogId" element={<RateBlog />} />
+          <Route path="/comment/:blogId" element={<CommentScreen />} />
+          <Route path="/update-blog/:blogId" element={<UpdateBlogPost />} /> {/* Add the route for updating a blog post */}
+          <Route path="/user" element={<Profile />} /> {/* Add the route for updating a blog post */}
+
+        </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
