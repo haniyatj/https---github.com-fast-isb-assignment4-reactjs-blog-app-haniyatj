@@ -79,7 +79,7 @@ const AdminDashboard = () => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,        },
+          'Authorization': `Bearer ${token}`,  },
       });
 
       if (!response.ok) {
@@ -98,11 +98,11 @@ const AdminDashboard = () => {
     <div className="admin-dashboard-container">
       <div className="user-list">
         <h2>User List</h2>
-        <ul>
+        <ul className="user-list-items">
           {users.map((user) => (
-            <li key={user._id}>
+            <li key={user._id} className="user-list-item">
               {user.username}{' '}
-              <button onClick={() => handleDisableUser(user._id)}>Disable</button>
+              <button onClick={() => handleDisableUser(user._id)} className="disable-button">Disable</button>
             </li>
           ))}
         </ul>
@@ -110,11 +110,11 @@ const AdminDashboard = () => {
 
       <div className="blog-post-list">
         <h2>Blog Post List</h2>
-        <ul>
+        <ul className="blog-post-list-items">
           {blogPosts.map((post) => (
-            <li key={post._id}>
+            <li key={post._id} className="blog-post-list-item">
               {post.title}{' '}
-              <button onClick={() => handleDisableBlogPost(post._id)}>Disable</button>
+              <button onClick={() => handleDisableBlogPost(post._id)} className="disable-button">Disable</button>
             </li>
           ))}
         </ul>
