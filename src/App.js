@@ -7,6 +7,7 @@ import CommentScreen from './CommentScreen';
 import UpdateBlogPost from './UpdateBlogPost'; 
 import AuthScreen from './AuthScreen';
 import Profile from './User';
+import Feed from './Feed';
 
 const App = () => {
   return (
@@ -17,8 +18,9 @@ const App = () => {
           <Route path="/create-blog" element={<CreateBlogPost />} />
           <Route path="/rate-blog/:blogId" element={<RateBlog />} />
           <Route path="/comment/:blogId" element={<CommentScreen />} />
-          <Route path="/update-blog/:blogId" element={<UpdateBlogPost />} /> {/* Add the route for updating a blog post */}
-          <Route path="/user" element={<Profile />} /> {/* Add the route for updating a blog post */}
+          <Route path="/update-blog/:blogId" element={<UpdateBlogPost />} /> 
+          <Route path="/user" element={<Profile />} /> 
+          <Route path="/feed" element={<Feed />} /> 
 
         </Routes>
     </Router>

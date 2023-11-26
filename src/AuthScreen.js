@@ -57,11 +57,10 @@ const AuthScreen = () => {
           alert('User is blocked. Please contact support.');
         } else {
           console.log("yas")
-          setToken(() => {
-            console.log('Received token from the server:', data.token);
-            return data.token;
-          });
+          setToken(data.token);
+          console.log('Received token from the server:', data.token);
           setError(null);
+
 
           if (loginUsername === 'admin123') {
             // For admin login, go to "/admin"

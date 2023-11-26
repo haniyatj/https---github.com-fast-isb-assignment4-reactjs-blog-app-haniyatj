@@ -4,12 +4,15 @@ import NavBar from './NavBar';
 import CreateBlogPost from './CreateBlogPost'; 
 import { Link } from 'react-router-dom';
 import UpdateBlogPost from './UpdateBlogPost';
+import useTokenStore from './tokenStore';
 
-const BlogList = () => {
+const Feed = () => {
   const [blogPosts, setBlogPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [showCreateBlogPost, setShowCreateBlogPost] = useState(false);
   const [updateBlogId, setUpdateBlogId] = useState(null);
+
+  const { token, decodeToken,Feed,loadFeed } = useTokenStore();
 
   const handleUpdateClick = (blogId) => {
     setUpdateBlogId(blogId);
@@ -29,26 +32,23 @@ const BlogList = () => {
 
 };
 
-  useEffect(() => {
+useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/blogpost/all/users`, {
-         
-        });
+        const decodedToken = decodeToken();
+        const username = decodedToken.username;
 
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
+        await loadFeed(username);
+        const userFeed = Feed; 
+      setBlogPosts(userFeed); 
 
-        const data = await response.json();
-        setBlogPosts(data);
       } catch (error) {
-        console.error('error fetching blog data:', error.message);
+        console.error('Error fetching blog data:', error.message);
       }
     };
 
     fetchData();
-  }, [currentPage]);
+  }, [currentPage, decodeToken, loadFeed]);
 
  
   return (
@@ -99,4 +99,4 @@ const BlogList = () => {
   );
 };
 
-export default BlogList;
+export default Feed;

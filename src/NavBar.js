@@ -12,7 +12,6 @@ const NavBar = () => {
   const navigate = useNavigate();
 
   const handleProfileClick = () => {
-    // Add any additional logic if needed
     navigate('/user');
   };
   return (
@@ -20,6 +19,8 @@ const NavBar = () => {
       <div className='yes'>
         <Link className="navbar-item" to="/create-blog">Create Blog</Link>
         <Link className="navbar-item" to="/auth">Register</Link>
+        <Link className="navbar-item" to="/feed">For You</Link>
+
         </div>
 
       <SearchBar />
