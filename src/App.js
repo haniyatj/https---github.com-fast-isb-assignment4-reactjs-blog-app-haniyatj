@@ -8,6 +8,8 @@ import UpdateBlogPost from './UpdateBlogPost';
 import AuthScreen from './AuthScreen';
 import Profile from './User';
 import Feed from './Feed';
+import AdminDashboard from './Admin';
+
 
 const App = () => {
   return (
@@ -21,6 +23,7 @@ const App = () => {
           <Route path="/update-blog/:blogId" element={<UpdateBlogPost />} /> 
           <Route path="/user" element={<Profile />} /> 
           <Route path="/feed" element={<Feed />} /> 
+          <Route path="/admin" element={<AdminDashboard />} /> 
 
         </Routes>
     </Router>

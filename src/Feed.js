@@ -5,27 +5,23 @@ import CreateBlogPost from './CreateBlogPost';
 import { Link } from 'react-router-dom';
 import UpdateBlogPost from './UpdateBlogPost';
 import useTokenStore from './tokenStore';
+import useFeedStore from './FeedStore';
 
 const Feed = () => {
   const [blogPosts, setBlogPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [showCreateBlogPost, setShowCreateBlogPost] = useState(false);
-  const [updateBlogId, setUpdateBlogId] = useState(null);
 
-  const { token, decodeToken,Feed,loadFeed } = useTokenStore();
+  const { token, decodeToken } = useTokenStore();
+  const { feed, loadFeed } = useFeedStore();
 
-  const handleUpdateClick = (blogId) => {
-    setUpdateBlogId(blogId);
-  };
-
+ 
   const handleUpdate = () => {
     setCurrentPage(1); 
 
   };
 
-  const handleCancelUpdate = () => {
-    setUpdateBlogId(null);
-  };
+ 
   const handleBlogPostCreated = () => {
     setCurrentPage(1); 
     setShowCreateBlogPost(false); 
@@ -35,13 +31,15 @@ const Feed = () => {
 useEffect(() => {
     const fetchData = async () => {
       try {
+        console.log('Calling loadFeed function');
+
         const decodedToken = decodeToken();
         const username = decodedToken.username;
 
-        await loadFeed(username);
-        const userFeed = Feed; 
-      setBlogPosts(userFeed); 
+        await loadFeed(username,token);
+        console.log('Feed data after loadFeed:', feed);
 
+       
       } catch (error) {
         console.error('Error fetching blog data:', error.message);
       }
@@ -61,7 +59,7 @@ useEffect(() => {
     
       <div className="blog-list-container">
         <div className="blog-list">
-          {blogPosts.map((post) => (
+          {feed.map((post) => (
             <div key={post._id} className="blog-post">
                  <img
                 className="blog-post-image"
@@ -79,19 +77,10 @@ useEffect(() => {
               <Link to={`/rate-blog/${post._id}`}>
                 <button className="star-button"> ⭐</button>
               </Link>
-              <button className="follow-button" >
-                Follow
-              </button>
+            
             </div>
           ))}
         </div>
-        {updateBlogId && (
-        <UpdateBlogPost
-          blogId={updateBlogId}
-          onUpdate={handleUpdate}
-          onCancel={handleCancelUpdate}
-        />
-      )}
        
 
       </div>

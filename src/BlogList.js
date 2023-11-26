@@ -4,12 +4,18 @@ import NavBar from './NavBar';
 import CreateBlogPost from './CreateBlogPost'; 
 import { Link } from 'react-router-dom';
 import UpdateBlogPost from './UpdateBlogPost';
+import useTokenStore from './tokenStore';
+import useFeedStore from './FeedStore';
+import useFollowStore from './followStore';
 
 const BlogList = () => {
   const [blogPosts, setBlogPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [showCreateBlogPost, setShowCreateBlogPost] = useState(false);
   const [updateBlogId, setUpdateBlogId] = useState(null);
+  const { token, decodeToken } = useTokenStore();
+  const { feed, loadFeed } = useFeedStore();
+  const { followers ,following,loadFollowData} = useFollowStore();
 
   const handleUpdateClick = (blogId) => {
     setUpdateBlogId(blogId);
@@ -50,7 +56,33 @@ const BlogList = () => {
     fetchData();
   }, [currentPage]);
 
- 
+  const handleFollow = async (blogger) => {
+    try {
+      const response = await fetch(`http://localhost:3000/users/follow/${blogger}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to follow blogger');
+      }
+      const decodedToken = decodeToken();
+      const username = decodedToken.username;
+      window.alert("followed!");
+      await loadFeed(username, token);
+      await loadFollowData(username, token);
+
+
+    //  setBlogPosts([]); // Clear existing posts
+      setCurrentPage(1); // Reload posts
+    } catch (error) {
+      console.error('Error following blogger:', error.message);
+    }
+  };
+  
   return (
     <>
    <style>
@@ -79,7 +111,7 @@ const BlogList = () => {
               <Link to={`/rate-blog/${post._id}`}>
                 <button className="star-button"> ⭐</button>
               </Link>
-              <button className="follow-button" >
+              <button className="follow-button" onClick={() => handleFollow(post.owner)} >
                 Follow
               </button>
             </div>

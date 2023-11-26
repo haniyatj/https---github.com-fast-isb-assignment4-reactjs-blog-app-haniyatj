@@ -3,6 +3,7 @@ import './User.css';
 import { Link } from 'react-router-dom';
 import UpdateBlogPost from './UpdateBlogPost';
 import useTokenStore from './tokenStore';
+import FollowersList from './follow';
 
 const Profile = () => {
   const [blogPosts, setBlogPosts] = useState([]);
@@ -86,6 +87,7 @@ const Profile = () => {
    <style>
   @import url('https://fonts.googleapis.com/css2?family=Calistoga&family=EB+Garamond:ital,wght@1,500&family=IBM+Plex+Sans:wght@600&family=Marcellus&family=Montserrat:wght@100;500&family=Outfit&family=Poppins:ital@1&display=swap');
 </style>
+    <FollowersList/>
       <div className="blog-list-container">
         <div className="blog-list">
           {blogPosts.map((post) => (

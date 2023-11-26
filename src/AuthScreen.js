@@ -67,7 +67,7 @@ const AuthScreen = () => {
             navigate('/admin');
           } else {
             // For regular user login, go to "/"
-            navigate('/user');
+            navigate('/');
           }
           alert(`User ${actionType === 'register' ? 'registered' : 'logged in'} successfully`);
         }
