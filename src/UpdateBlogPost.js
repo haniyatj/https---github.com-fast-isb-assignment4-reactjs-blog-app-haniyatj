@@ -1,14 +1,21 @@
 // UpdateBlogPost.js
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate ,useParams  } from 'react-router-dom';
 import './UpdateBlogPost.css';
 import useTokenStore from './tokenStore';
-const UpdateBlogPost = ({ blogId, onUpdate, onCancel }) => {
+import useBlogStore from './blogStore';
+
+
+const UpdateBlogPost = () => {
+
+  const navigate = useNavigate(); 
+  const token = useTokenStore((state) => state.token);
+
+  const { setSelectedBlogPost } = useBlogStore();
+  const { blogId } = useParams();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [image, setImage] = useState('');
-  const navigate = useNavigate(); 
-  const token = useTokenStore((state) => state.token);
 
   const handleUpdate = async () => {
     try {
@@ -25,10 +32,13 @@ const UpdateBlogPost = ({ blogId, onUpdate, onCancel }) => {
       if (!response.ok) {
         throw new Error('Failed to update the blog post');
       }
+      window.alert('updated!'); 
 
       const result = await response.json();
 
-      onUpdate();
+      // Update the selected blog post in the store
+      setSelectedBlogPost(result);
+
       navigate('/user');
 
       
@@ -65,7 +75,6 @@ const UpdateBlogPost = ({ blogId, onUpdate, onCancel }) => {
         onChange={(e) => setImage(e.target.value)}
       />
       <button onClick={handleUpdate}>Update</button>
-      <button  className="cancel-button" onClick={onCancel}>Cancel</button>
     </div>
   );
 };

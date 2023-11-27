@@ -29,7 +29,7 @@ const Profile = () => {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`, // Add your token here
+          'Authorization': `Bearer ${token}`, 
         },
       });
 
@@ -37,7 +37,6 @@ const Profile = () => {
         throw new Error('Failed to delete the blog post');
       }
 
-      // Remove the deleted blog post from the state
       setBlogPosts((prevPosts) => prevPosts.filter((post) => post._id !== blogId));
     } catch (error) {
       console.error('Error deleting blog post:', error);
@@ -47,12 +46,10 @@ const Profile = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log("Token at the beginning:", token); // Log the token at the start
-
+        console.log("Token at the beginning:", token); 
         const decodedToken = decodeToken();
-       console.log("Decoded Token:", decodedToken); // Log 
+       console.log("Decoded Token:", decodedToken); 
 
-        // Check if the token exists before making the request
         if (!token) {
           console.error('Token is missing. User might not be authenticated.');
           return;
@@ -94,7 +91,7 @@ const Profile = () => {
             <div key={post._id} className="blog-post">
                  <img
                 className="blog-post-image"
-                src={post.image}// Replace with the URL to your image
+                src={post.image}
                 alt="Blog Post"
               />
               <h2>{post.title}</h2>

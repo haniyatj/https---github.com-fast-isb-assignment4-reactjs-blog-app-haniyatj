@@ -3,9 +3,13 @@ import { jwtDecode } from "jwt-decode";
 
 const useTokenStore = create((set) => ({
   token: null,
+  newPostCreated: false,
   setToken: (newToken) => set({ token: newToken }),
+  setNewPostCreated: (status) => set({ newPostCreated: status }),
+
   decodeToken: () => {
    const { token } = useTokenStore.getState();
+   
    // const { token } = set.getState();
     if (token) {
       const decodedToken = jwtDecode(token);

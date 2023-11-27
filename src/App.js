@@ -9,6 +9,7 @@ import AuthScreen from './AuthScreen';
 import Profile from './User';
 import Feed from './Feed';
 import AdminDashboard from './Admin';
+import UpdateUser from './UpdateUser';
 
 
 const App = () => {
@@ -24,6 +25,7 @@ const App = () => {
           <Route path="/user" element={<Profile />} /> 
           <Route path="/feed" element={<Feed />} /> 
           <Route path="/admin" element={<AdminDashboard />} /> 
+          <Route path="/edit" element={<UpdateUser />} /> 
 
         </Routes>
     </Router>

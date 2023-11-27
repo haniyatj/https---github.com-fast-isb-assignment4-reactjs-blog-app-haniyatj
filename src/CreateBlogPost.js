@@ -2,11 +2,13 @@
 import React, { useState } from 'react';
 import './CreateBlogPost.css'; // Import your CSS file
 import { useNavigate } from 'react-router-dom';
+import useTokenStore from './tokenStore';
 
-const CreateBlogPost = ({onBlogPostCreated}) => {
+const CreateBlogPost = () => {
 
     const navigate = useNavigate();
-    console.log('onBlogPostCreated prop:', onBlogPostCreated);
+    const { token, setNewPostCreated } = useTokenStore();
+
 
   const [formData, setFormData] = useState({
     title: '',
@@ -24,12 +26,11 @@ const CreateBlogPost = ({onBlogPostCreated}) => {
     e.preventDefault();
   
     try {
-      // Step 1: Create the blog post
       const createResponse = await fetch('http://localhost:3000/blogpost', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjU1MDU3MTczYzAyMDc5NTBlYTMxZjcyIiwidXNlcm5hbWUiOiJ0YXlsb3Jzd2lmdCIsInR5cGUiOiJ1c2VyIiwiaWF0IjoxNzAwOTA1OTE0LCJleHAiOjE3MDExNTQzMTR9.NMnx1SExsKaEZDI3-LY5D9rWR_U1IWLJyoqsBiDHs6c`,
+          'Authorization': `Bearer ${token}`,
 
         },
         body: JSON.stringify({
@@ -46,10 +47,10 @@ const CreateBlogPost = ({onBlogPostCreated}) => {
   
       const createdBlogPost = await createResponse.json();
       console.log('Blog post created:', createdBlogPost);
- // Ensure onBlogPostCreated is a function before calling it
-      if (typeof onBlogPostCreated === 'function') {
-        onBlogPostCreated();
-      }
+
+      setNewPostCreated(true);
+
+
       navigate('/');
 
   

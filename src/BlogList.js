@@ -7,54 +7,60 @@ import UpdateBlogPost from './UpdateBlogPost';
 import useTokenStore from './tokenStore';
 import useFeedStore from './FeedStore';
 import useFollowStore from './followStore';
+import useSearchStore from './searchStore';
 
 const BlogList = () => {
   const [blogPosts, setBlogPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [showCreateBlogPost, setShowCreateBlogPost] = useState(false);
   const [updateBlogId, setUpdateBlogId] = useState(null);
-  const { token, decodeToken } = useTokenStore();
+  const { token, decodeToken,newPostCreated, setNewPostCreated } = useTokenStore();
   const { feed, loadFeed } = useFeedStore();
   const { followers ,following,loadFollowData} = useFollowStore();
+  const { keywords, category, author, sortBy, sortOrder, updateSearchOptions } = useSearchStore(); // Use the search store
 
-  const handleUpdateClick = (blogId) => {
-    setUpdateBlogId(blogId);
-  };
-
-  const handleUpdate = () => {
-    setCurrentPage(1); 
-
-  };
-
-  const handleCancelUpdate = () => {
-    setUpdateBlogId(null);
-  };
-  const handleBlogPostCreated = () => {
-    setCurrentPage(1); 
-    setShowCreateBlogPost(false); 
-
-};
-
+ 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/blogpost/all/users`, {
-         
-        });
+        let url =  `http://localhost:3000/blogpost/all/users`;
+      
 
+        if ( keywords && keywords.trim() !== '') {
+          console.log("boo")
+          url = `http://localhost:3000/search?keywords=${keywords}&category=${category}&author=${author}&sortBy=${sortBy}&sortOrder=${sortOrder}&page=${currentPage}`;
+        }
+
+        if (newPostCreated) {
+          // If a new post has been created, reset the flag and refetch data
+          setNewPostCreated(false);
+         // fetchData();
+        }
+
+        const response = await fetch(url, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+  
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error(`Network response was not ok: ${response.status} - ${response.statusText}`);
         }
 
         const data = await response.json();
+        console.log('BlogList - Fetched Data:', data);
+
+      
+
         setBlogPosts(data);
       } catch (error) {
         console.error('error fetching blog data:', error.message);
+        setBlogPosts([]);
+
       }
     };
 
     fetchData();
-  }, [currentPage]);
+  }, [currentPage, keywords, category, author, sortBy, sortOrder]);
 
   const handleFollow = async (blogger) => {
     try {
@@ -82,14 +88,14 @@ const BlogList = () => {
       console.error('Error following blogger:', error.message);
     }
   };
-  
+  console.log('blogPosts:', blogPosts);
+
   return (
     <>
    <style>
   @import url('https://fonts.googleapis.com/css2?family=Calistoga&family=EB+Garamond:ital,wght@1,500&family=IBM+Plex+Sans:wght@600&family=Marcellus&family=Montserrat:wght@100;500&family=Outfit&family=Poppins:ital@1&display=swap');
 </style>
       <NavBar  />
-      {showCreateBlogPost && <CreateBlogPost onBlogPostCreated={handleBlogPostCreated} />}
     
       <div className="blog-list-container">
         <div className="blog-list">
@@ -117,13 +123,7 @@ const BlogList = () => {
             </div>
           ))}
         </div>
-        {updateBlogId && (
-        <UpdateBlogPost
-          blogId={updateBlogId}
-          onUpdate={handleUpdate}
-          onCancel={handleCancelUpdate}
-        />
-      )}
+      
        
 
       </div>
