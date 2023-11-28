@@ -114,11 +114,9 @@ const BlogList = () => {
                   {post.comments.map((comment) => (
                     <div key={comment._id}>
                       <p>{comment.text}</p>
-                      <p>By: {comment.user}</p>
                     </div>
                   ))}
                 </p>
-              <button className="delete-button"> ✖️</button>
                            
             <Link to={`/comment/${post._id}`}>
               <button className="comment-button"> 💬</button>

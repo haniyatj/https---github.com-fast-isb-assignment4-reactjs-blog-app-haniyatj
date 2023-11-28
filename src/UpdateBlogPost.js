@@ -11,7 +11,7 @@ const UpdateBlogPost = () => {
   const token = useTokenStore((state) => state.token);
 
   const { setSelectedBlogPost } = useBlogStore();
-  const { blogId } = useParams();
+  const { id } = useParams();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [image, setImage] = useState('');
@@ -19,7 +19,7 @@ const UpdateBlogPost = () => {
   const handleUpdate = async () => {
     try {
 
-      const response = await fetch(`http://localhost:3000/blogpost/${blogId}`, {
+      const response = await fetch(`http://localhost:3000/blogpost/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

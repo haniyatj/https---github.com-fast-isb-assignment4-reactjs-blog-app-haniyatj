@@ -69,7 +69,6 @@ useEffect(() => {
               <h2>{post.title}</h2>
               <p>Author: {post.owner}</p>
               <p>{post.content}</p>
-              <button className="delete-button"> ✖️</button>
                            
             <Link to={`/comment/${post._id}`}>
               <button className="comment-button"> 💬</button>
