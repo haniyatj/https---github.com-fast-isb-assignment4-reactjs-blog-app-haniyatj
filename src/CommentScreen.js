@@ -1,30 +1,36 @@
 import React, { useState } from 'react';
 import { useNavigate,useParams } from 'react-router-dom';
 import './CommentScreen.css';
-const CommentScreen = ({ blogId, onComment }) => {
+import useTokenStore from './tokenStore';
+import useCommentsStore from './commentsStore';
+
+const CommentScreen = () => {
   const [commentText, setCommentText] = useState('');
   const navigate = useNavigate(); 
   const { postId } = useParams();
-
+  const { token, decodeToken } = useTokenStore();
+  const { setCommentedBlogId } = useCommentsStore();
 
   const handleComment = async () => {
+
     try {
       const response = await fetch(`http://localhost:3000/blog/comment/${postId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjU1MDU3MTczYzAyMDc5NTBlYTMxZjcyIiwidXNlcm5hbWUiOiJ0YXlsb3Jzd2lmdCIsInR5cGUiOiJ1c2VyIiwiaWF0IjoxNzAwOTA1OTE0LCJleHAiOjE3MDExNTQzMTR9.NMnx1SExsKaEZDI3-LY5D9rWR_U1IWLJyoqsBiDHs6c', // Replace with your actual access token
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({ text: commentText }),
       });
 
       if (!response.ok) {
+    
         throw new Error('Failed to comment on the blog post');
       }
 
       const result = await response.json();
-
-      onComment();
+  setCommentedBlogId(postId);
+  console.log("im here");
       navigate('/'); 
 
      

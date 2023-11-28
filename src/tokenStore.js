@@ -10,7 +10,6 @@ const useTokenStore = create((set) => ({
   decodeToken: () => {
    const { token } = useTokenStore.getState();
    
-   // const { token } = set.getState();
     if (token) {
       const decodedToken = jwtDecode(token);
       return decodedToken;

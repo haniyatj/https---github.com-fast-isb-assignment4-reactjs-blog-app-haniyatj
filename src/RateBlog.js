@@ -1,21 +1,24 @@
 import React, { useState } from 'react';
 import { useNavigate ,useParams } from 'react-router-dom';
 import './RateBlog.css';
-const RateBlog = ({ blogId, onClose, onRate }) => {
+import useTokenStore from './tokenStore';
+import useRatedStore from './ratedStore'; 
+const RateBlog = () => {
 
   const { postId } = useParams();
-
+  const { setRatedBlogId } = useRatedStore(); 
   const [rating, setRating] = useState('');
-  const navigate = useNavigate(); // Get the navigate function
+  const navigate = useNavigate(); 
+  const { token, decodeToken } = useTokenStore();
 
   const handleRate = async () => {
     try {
-      // Send a request to the server to rate the blog post
       const response = await fetch(`http://localhost:3000/blogpost/rate/${postId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjU1MDU3MTczYzAyMDc5NTBlYTMxZjcyIiwidXNlcm5hbWUiOiJ0YXlsb3Jzd2lmdCIsInR5cGUiOiJ1c2VyIiwiaWF0IjoxNzAwOTA1OTE0LCJleHAiOjE3MDExNTQzMTR9.NMnx1SExsKaEZDI3-LY5D9rWR_U1IWLJyoqsBiDHs6c', // Replace with your actual access token
+          'Authorization': `Bearer ${token}`,
+ 
         },
         body: JSON.stringify({ rating: parseInt(rating, 10) }),
       });
@@ -24,16 +27,13 @@ const RateBlog = ({ blogId, onClose, onRate }) => {
         throw new Error('Failed to rate the blog post');
       }
 
-      // Assuming the server responds with the updated blog post data
       const updatedBlogPost = await response.json();
+      setRatedBlogId(postId);
 
-      // Call the 'onRate' prop to pass the rating and updated data to the parent component
-     // onRate(updatedBlogPost);
+     
       navigate('/'); 
-      //onClose();
     } catch (error) {
       console.error('Error rating blog post:', error);
-      // Handle error, you might want to show a user-friendly error message
     }
   };
 

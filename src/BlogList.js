@@ -8,7 +8,8 @@ import useTokenStore from './tokenStore';
 import useFeedStore from './FeedStore';
 import useFollowStore from './followStore';
 import useSearchStore from './searchStore';
-
+import useRatedStore from './ratedStore';
+import useCommentsStore from './commentsStore';
 const BlogList = () => {
   const [blogPosts, setBlogPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -17,8 +18,9 @@ const BlogList = () => {
   const { feed, loadFeed } = useFeedStore();
   const { followers ,following,loadFollowData} = useFollowStore();
   const { keywords, category, author, sortBy, sortOrder, updateSearchOptions } = useSearchStore(); // Use the search store
+  const { ratedBlogId } = useRatedStore();
+  const { commentedBlogId } = useCommentsStore();
 
- 
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -31,9 +33,7 @@ const BlogList = () => {
         }
 
         if (newPostCreated) {
-          // If a new post has been created, reset the flag and refetch data
           setNewPostCreated(false);
-         // fetchData();
         }
 
         const response = await fetch(url, {
@@ -60,7 +60,7 @@ const BlogList = () => {
     };
 
     fetchData();
-  }, [currentPage, keywords, category, author, sortBy, sortOrder]);
+  }, [currentPage, keywords, category, author, sortBy, sortOrder,ratedBlogId,commentedBlogId]);
 
   const handleFollow = async (blogger) => {
     try {
@@ -82,8 +82,7 @@ const BlogList = () => {
       await loadFollowData(username, token);
 
 
-    //  setBlogPosts([]); // Clear existing posts
-      setCurrentPage(1); // Reload posts
+      setCurrentPage(1); 
     } catch (error) {
       console.error('Error following blogger:', error.message);
     }
@@ -109,6 +108,16 @@ const BlogList = () => {
               <h2>{post.title}</h2>
               <p>Author: {post.owner}</p>
               <p>{post.content}</p>
+              <p>Ratings: {post.ratings.map((rating) => rating.rating).join(", ")}</p>
+                <p>
+                  Comments:
+                  {post.comments.map((comment) => (
+                    <div key={comment._id}>
+                      <p>{comment.text}</p>
+                      <p>By: {comment.user}</p>
+                    </div>
+                  ))}
+                </p>
               <button className="delete-button"> ✖️</button>
                            
             <Link to={`/comment/${post._id}`}>

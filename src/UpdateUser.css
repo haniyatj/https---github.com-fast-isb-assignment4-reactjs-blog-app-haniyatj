@@ -1,7 +1,7 @@
 .update-user-container {
     max-width: 400px;
     margin: auto;
-    padding: 20px;
+    padding: 29px;
     border: 1px solid #ccc;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -27,14 +27,14 @@
   
   .update-user-form button {
     padding: 12px;
-    background-color: #3498db;
-    color: #fff;
+    background-color: #afd0eb;
+    color: black;
     border: none;
     border-radius: 4px;
     cursor: pointer;
   }
   
   .update-user-form button:hover {
-    background-color: #2980b9;
+    background-color: #e7a7a2;
   }
   

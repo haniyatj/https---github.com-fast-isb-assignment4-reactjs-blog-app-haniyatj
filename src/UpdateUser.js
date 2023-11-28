@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import useUserStore from './userStore';
 import './UpdateUser.css'; 
 import useTokenStore from './tokenStore';
+import { useNavigate,useParams  } from 'react-router-dom';
 
 const UpdateUser = () => {
   const { user, setUser } = useUserStore();
@@ -12,6 +13,8 @@ const UpdateUser = () => {
     type: user?.type || '',
   });
   const { token, decodeToken } = useTokenStore();
+  const navigate = useNavigate();
+  const { userId } = useParams();
 
 
   const handleChange = (e) => {
@@ -21,7 +24,7 @@ const UpdateUser = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://your-api-url/update/${user._id}`, {
+      const response = await fetch(`http://localhost:3000/update/${userId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -35,8 +38,10 @@ const UpdateUser = () => {
         throw new Error('Failed to update user');
       }
 
-      setUser({ ...user, ...formData }); // Update local Zustand store
+      setUser({ ...user, ...formData }); 
       alert('User updated successfully');
+      navigate('/');
+
     } catch (error) {
       console.error('Error updating user:', error.message);
     }
@@ -44,7 +49,7 @@ const UpdateUser = () => {
 
   return (
     <div className="update-user-container">
-      <h2>Update User</h2>
+      <h2>Update Profile</h2>
       <form className="update-user-form" onSubmit={handleSubmit}>
         <label htmlFor="username">Username:</label>
         <input
@@ -77,7 +82,7 @@ const UpdateUser = () => {
         />
 
     
-        <button type="submit">Update User</button>
+        <button type="submit">Update</button>
       </form>
     </div>
   );

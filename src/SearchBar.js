@@ -9,15 +9,13 @@ const SearchBar = () => {
 
   const handleSearch = () => {
     const keywords = document.getElementById('search-input').value;
-    // You can also get other search options (category, author, sortBy, sortOrder) similarly
-    // For simplicity, let's assume you have those values
+  
     const category = ' ';
     const author = ' ';
     const sortBy = ' ';
     const sortOrder = 'asc';
     console.log('SearchBar - Keywords:', keywords);
 
-    // Update search options in the search store
     updateSearchOptions({ keywords, category, author, sortBy, sortOrder });
   };
  

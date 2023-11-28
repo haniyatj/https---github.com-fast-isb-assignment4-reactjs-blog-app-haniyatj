@@ -19,13 +19,13 @@ const App = () => {
         <Route path="/auth" element={<AuthScreen />} />
           <Route path="/" element={<BlogList />} />
           <Route path="/create-blog" element={<CreateBlogPost />} />
-          <Route path="/rate-blog/:blogId" element={<RateBlog />} />
-          <Route path="/comment/:blogId" element={<CommentScreen />} />
+          <Route path="/rate-blog/:postId" element={<RateBlog />} />
+          <Route path="/comment/:postId" element={<CommentScreen />} />
           <Route path="/update-blog/:blogId" element={<UpdateBlogPost />} /> 
           <Route path="/user" element={<Profile />} /> 
           <Route path="/feed" element={<Feed />} /> 
           <Route path="/admin" element={<AdminDashboard />} /> 
-          <Route path="/edit" element={<UpdateUser />} /> 
+          <Route path="/edit:id" element={<UpdateUser />} /> 
 
         </Routes>
     </Router>

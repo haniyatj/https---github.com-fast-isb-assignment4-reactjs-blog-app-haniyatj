@@ -1,4 +1,3 @@
-// UpdateBlogPost.js
 import React, { useState, useEffect } from 'react';
 import { useNavigate ,useParams  } from 'react-router-dom';
 import './UpdateBlogPost.css';
@@ -36,7 +35,6 @@ const UpdateBlogPost = () => {
 
       const result = await response.json();
 
-      // Update the selected blog post in the store
       setSelectedBlogPost(result);
 
       navigate('/user');

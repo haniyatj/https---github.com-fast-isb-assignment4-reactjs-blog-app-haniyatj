@@ -4,13 +4,16 @@ import { Link } from 'react-router-dom';
 import UpdateBlogPost from './UpdateBlogPost';
 import useTokenStore from './tokenStore';
 import FollowersList from './follow';
+import useRatedStore from './ratedStore';
+import useCommentsStore from './commentsStore';
 
 const Profile = () => {
   const [blogPosts, setBlogPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [updateBlogId, setUpdateBlogId] = useState(null);
   const { token, decodeToken } = useTokenStore();
-
+  const { ratedBlogId } = useRatedStore();
+  const { commentedBlogId } = useCommentsStore();
   const handleUpdateClick = (blogId) => {
     setUpdateBlogId(blogId);
   };
@@ -55,7 +58,6 @@ const Profile = () => {
           return;
         }
   
-  
         const response = await fetch(`http://localhost:3000/blogpost?page=${currentPage}&limit=7&author=${decodedToken.username}`, {
          
         });
@@ -76,7 +78,7 @@ const Profile = () => {
     };
   
     fetchData();
-  }, [currentPage,token,decodeToken]);
+  }, [currentPage,token,decodeToken,ratedBlogId,commentedBlogId]);
 
  
   return (
@@ -98,6 +100,16 @@ const Profile = () => {
               <p>Author: {post.owner}</p>
               <p>Created At:{post.createdAt}</p>
               <p>{post.content}</p>
+              <p>Ratings: {post.ratings.map((rating) => rating.rating).join(", ")}</p>
+                <p>
+                  Comments:
+                  {post.comments.map((comment) => (
+                    <div key={comment._id}>
+                      <p>{comment.text}</p>
+                      <p>By: {comment.user}</p>
+                    </div>
+                  ))}
+                </p>
               <button className="delete-button" onClick={() => handleDelete(post._id)}> ✖️</button>
               <Link to={`/update-blog/${post._id}`}> 
               <button className="update-button"  onClick={() => handleUpdateClick(post._id)}>✏️</button>
